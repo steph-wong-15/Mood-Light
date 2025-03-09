@@ -59,6 +59,6 @@ Backend Processing: The Node.js backend determines mood.
 
 Lighting Effect: The LED strip changes colour based on mood.
 
-# Future Enhancements
+## Future Enhancements
 
 Implement voice emotion detection.
