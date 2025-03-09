@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 const API_URL = process.env.NODE_ENV === "production"
-    ? "https://your-heroku-app-name.herokuapp.com"
+    ? "https://mood-light-backend.onrender.com"
     : "http://localhost:3000";
 
 function App() {
