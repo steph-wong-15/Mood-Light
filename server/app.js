@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Initializes serial communication with the correct port
 let port;
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV !== "production") {
     
     const { SerialPort } = require('serialport');
     const { ReadlineParser } = require('@serialport/parser-readline');
@@ -55,7 +55,7 @@ app.post('/api/text', (req, res) => {
         mood = "Neutral";
     }
 
-    if (port && process.env.NODE_ENV == "production") {
+    if (port && process.env.NODE_ENV !== "production") {
         port.write(String(result.score));
     }
     
