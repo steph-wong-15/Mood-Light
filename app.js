@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const Sentiment = require('sentiment');
 
-// const { SerialPort } = require('serialport'); 
-// const { ReadlineParser } = require('@serialport/parser-readline');
+const { SerialPort } = require('serialport'); 
+const { ReadlineParser } = require('@serialport/parser-readline');
 
 const app = express();
 const PORT = 3000;
@@ -12,16 +12,21 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize serial communication with the correct port
-// const port = new SerialPort({
-//     path: '/dev/ttyUSB0',  
-//     baudRate: 9600
-//   });
-// const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
+const port = new SerialPort({
+    path: "COM3",  
+     baudRate: 115200
+   });
+const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
+port.on("open", () => {
+    console.log('serial port open');
+  });parser.on('data', data =>{
+    console.log('got word from arduino:', data);
+  });
 
 app.post('/api/text', (req, res) => {
 
     const { text } = req.body;
-    const textReceived = text
+    const textReceived = text;
     console.log('Received Text: ', textReceived); 
     
     const sentiment = new Sentiment();
@@ -39,7 +44,8 @@ app.post('/api/text', (req, res) => {
     else {
         mood = "Neutral";
     }
-//  port.write(result.score);
+
+    port.write(String(result.score));
     res.json({ message: mood });
 });
 
