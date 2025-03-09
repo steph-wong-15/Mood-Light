@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const API_URL = process.env.NODE_ENV === "production"
+    ? "https://your-heroku-app-name.herokuapp.com"
+    : "http://localhost:3000";
+
 function App() {
   const [text, setText] = useState('');
   const [responseText, setResponseText] = useState('');
@@ -9,7 +13,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const response = await fetch('http://localhost:3000/api/text', {
+    const response = await fetch(`${API_URL}/api/text`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
