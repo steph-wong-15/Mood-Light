@@ -1,40 +1,80 @@
 .App {
   text-align: center;
   min-height: 100vh;
-  background-color: #282c34;
-  color: white;
   padding: 20px;
+  transition: background-color 0.5s ease;
 }
 
-.input-container, .display-container {
+/* Default theme (blue and purple) */
+.App {
+  background: linear-gradient(135deg, #4a90e2, #9b59b6);
+}
+
+/* Positive mood (green) */
+.App.positive {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+/* Negative mood (red) */
+.App.negative {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+/* Neutral mood (yellow) */
+.App.neutral {
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+}
+
+.container {
   padding: 20px;
   max-width: 600px;
   margin: 0 auto;
 }
 
+h1 {
+  color: white;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 input {
-  padding: 10px;
+  padding: 15px;
   margin-right: 10px;
   font-size: 16px;
-  border-radius: 4px;
+  border-radius: 25px;
   border: none;
   width: 300px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 button {
-  padding: 10px 20px;
+  padding: 15px 30px;
   font-size: 16px;
-  background-color: #61dafb;
-  color: black;
-  border: none;
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  border-radius: 25px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #4fa8c7;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
-h1 {
-  margin-bottom: 30px;
+.response {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.response h2 {
+  color: #333;
+  margin-bottom: 10px;
 }
