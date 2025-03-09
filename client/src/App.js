@@ -6,24 +6,8 @@ function App() {
   const [responseText, setResponseText] = useState('');
   const [mood, setMood] = useState('default');
 
-  const detectMood = (text) => {
-    const positiveWords = ['happy', 'joy', 'great', 'excellent', 'good', 'love', 'wonderful'];
-    const negativeWords = ['sad', 'bad', 'angry', 'hate', 'terrible', 'awful', 'mad'];
-    
-    const words = text.toLowerCase().split(' ');
-    
-    if (words.some(word => positiveWords.includes(word))) {
-      return 'positive';
-    } else if (words.some(word => negativeWords.includes(word))) {
-      return 'negative';
-    }
-    return 'neutral';
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const detectedMood = detectMood(text);
-    setMood(detectedMood);
     
     const response = await fetch('http://localhost:3000/api/text', {
       method: 'POST',
@@ -32,7 +16,9 @@ function App() {
       },
       body: JSON.stringify({ text }),
     });
+    
     const data = await response.json();
+    setMood(data.message.toLowerCase()); // Assuming the API response contains a mood message like "Positive", "Negative", or "Neutral"
     setResponseText(data.message);
   };
 
@@ -45,13 +31,13 @@ function App() {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Enter your mood or feeling"
+            placeholder="Enter a sentence or paragraph"
           />
           <button type="submit">Submit</button>
         </form>
         {responseText && (
           <div className="response">
-            <h2>Your Mood:</h2>
+            <h2>The Mood</h2>
             <p>{responseText}</p>
           </div>
         )}
