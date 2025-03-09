@@ -12,16 +12,32 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize serial communication with the correct port
+
 const port = new SerialPort({
     path: "COM3",  
-     baudRate: 115200
+    baudRate: 115200,
+    autoOpen: false,
    });
-const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
-port.on("open", () => {
-    console.log('serial port open');
-  });parser.on('data', data =>{
-    console.log('got word from arduino:', data);
-  });
+
+// Attempt to open the port and handle errors
+port.open((err) => {
+    if (err) {
+        console.error("Error opening serial port:", err.message);
+        return;
+    }
+    console.log("Serial port opened successfully.");
+
+    // Set up the parser only if the port opens successfully
+    const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
+
+    parser.on("data", (data) => {
+        console.log("Received data:", data);
+    });
+
+    port.on("error", (err) => {
+        console.error("Serial port error:", err.message);
+    });
+});
 
 app.post('/api/text', (req, res) => {
 
@@ -45,7 +61,10 @@ app.post('/api/text', (req, res) => {
         mood = "Neutral";
     }
 
-    port.write(String(result.score));
+    if (port){
+        port.write(String(result.score));
+    }
+    
     res.json({ message: mood });
 });
 
